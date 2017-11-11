@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.1.2",
     "exec": "^0.2.1",
     "prompt": "^1.0.0"
   }

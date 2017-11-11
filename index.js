@@ -1,9 +1,20 @@
 var prompt = require('prompt');
 var exec = require('exec');
+var colors = require("colors/safe");
 
 prompt.start();
-prompt.get(['CohortPrefix'], function (err, result) {
-  startWork(result.CohortPrefix);
+prompt.get({
+  properties: {
+    CohortPrefix: {
+      description: colors.magenta("What is your cohort prefix? (e.g 'hrsf78')")
+    }
+  }
+}, function (err, result) {
+  if (result.CohortPrefix) {
+    startWork(result.CohortPrefix);    
+  } else {
+    console.log('Please enter a cohort prefix...');
+  }
 });
 
 function startWork (prefix) {
@@ -49,8 +60,9 @@ function startWork (prefix) {
   var prefixAndRepos = bleh.split('\n').map(line => {var command = prefix + '-' + line.trim(); console.log('Command:', command);return command}).join(' ');
   var commands = 'liberate --hackreactor ' + prefixAndRepos;
   var secondsTill30 = 30000;
+  console.log('Liberator running in child process, please wait...');
   var timeout = setInterval(function () {
-    console.log(secondsTill30 / 1000 + 'seconds left');
+    console.log(secondsTill30 / 1000 + ' seconds left');
     secondsTill30 -= 1000;
   }, 1000);
   exec(commands, function(err, out, code) {
